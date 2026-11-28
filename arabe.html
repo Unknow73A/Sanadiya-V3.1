@@ -1,0 +1,366 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Lire et écrire l'arabe</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap">
+<style>
+:root{--bg:#fbf7ee;--fg:#1d2b27;--mut:#5d6b66;--card:#fff;--line:#e3dccb;--ac:#0f6b57;--ac2:#c9a24b;--ok:#1f8a54;--no:#b3402f;--ink:#12302a;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1b18;--fg:#e8efe9;--mut:#9fb2aa;--card:#15251f;--line:#27413a;--ac:#4ec3a2;--ac2:#d9b45e;--ok:#4ed08a;--no:#ef7c68;--ink:#e8efe9;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1b18;--fg:#e8efe9;--mut:#9fb2aa;--card:#15251f;--line:#27413a;--ac:#4ec3a2;--ac2:#d9b45e;--ok:#4ed08a;--no:#ef7c68;--ink:#e8efe9;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 max(14px,env(safe-area-inset-right)) 90px max(14px,env(safe-area-inset-left))}
+.ar{font-family:"Amiri","Scheherazade New","Noto Naskh Arabic","Traditional Arabic",serif;direction:rtl;line-height:1.7}
+header{position:sticky;top:0;background:var(--bg);padding:10px 0 6px;z-index:5;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--line)}
+header h1{font-size:18px;margin:0;flex:1}header button{flex:none}
+button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:8px 12px;border-radius:12px;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}button.pri{background:var(--ac);color:var(--bg);border-color:var(--ac)}button.on{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 0}nav button{white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;direction:rtl}
+.lt{display:flex;flex-direction:column;align-items:center;padding:8px 2px;direction:ltr}.lt .ar{font-size:36px;line-height:1.3}.lt small{color:var(--mut);font-size:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0}
+.big{font-size:84px;text-align:center;line-height:1.3}.forms{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}.forms div{background:var(--bg);border-radius:10px;padding:6px 2px}.forms .ar{font-size:34px;display:block}.forms small{color:var(--mut);font-size:11px}
+.note{color:var(--mut);font-size:14px}.src{color:var(--mut);font-size:12px;margin-top:18px}
+.opt{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.opt button{padding:12px}.opt .good{background:var(--ok);color:#fff;border-color:var(--ok)}.opt .bad{background:var(--no);color:#fff;border-color:var(--no)}
+.nibl select{font:inherit;font-size:14px;padding:6px 8px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink)}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.pad{position:relative;width:100%;aspect-ratio:1/1;max-width:420px;margin:8px auto;border:2px dashed #CFC6B0;border-radius:16px;background:#FFFDF6;touch-action:none}
+.pad canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:14px;touch-action:none}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.score{font-weight:700}.tbl{width:100%;border-collapse:collapse}.tbl td,.tbl th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:center}
+h2{font-size:17px;margin:14px 0 6px}
+:root{--g1:color-mix(in srgb,var(--ac) 8%,var(--card));--g2:color-mix(in srgb,var(--ac2) 14%,var(--card));--g3:color-mix(in srgb,var(--no) 8%,var(--card));--g4:color-mix(in srgb,#3E6FA8 10%,var(--card))}
+button.snd{padding:6px 10px;font-size:14px}
+h2.g{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--mut);margin:16px 0 6px}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tile{text-align:start;border:1px solid var(--line);border-radius:14px;padding:10px;min-height:5.4rem;display:flex;flex-direction:column;gap:2px;justify-content:space-between;background:var(--g1);width:100%}
+.tile.k2{background:var(--g2)}.tile.k3{background:var(--g3)}.tile.k4{background:var(--g4)}
+.tile .emo{font-size:1.7rem;line-height:1.1;display:block}.tile b{font-size:.9rem;line-height:1.2}.tile small{color:var(--mut);font-size:.74rem;line-height:1.25}
+.grid .lt{border-radius:14px;background:var(--g1)}.grid .lt:nth-child(4n+2){background:var(--g2)}.grid .lt:nth-child(4n+3){background:var(--g3)}.grid .lt:nth-child(4n){background:var(--g4)}
+.phon{text-align:center;font-size:19px;font-weight:600;color:var(--ac);margin:8px 0 -2px;line-height:1.35}.exsum{display:flex;gap:12px;align-items:center}.ring{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;flex:none}.ring i{width:44px;height:44px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:13px}
+.exlv{display:flex;gap:10px;align-items:center;width:100%;text-align:start;margin:0 0 8px;padding:10px 12px;border-radius:16px}.exlv .n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--line);flex:none}.exlv .tx{flex:1;min-width:0}.exlv small{display:block;color:var(--mut);font-size:13px}.exlv .st{color:var(--ac2);white-space:nowrap}
+.exlv.done .n{background:var(--ok);color:#fff}.exlv.cur{border:2px solid var(--ac)}.exlv.cur .n{background:var(--ac);color:var(--bg)}.exlv.lock{opacity:.55}
+.bar{display:block;height:6px;border-radius:4px;background:var(--line);margin-top:5px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac)}
+.prog{display:flex;gap:4px;margin:6px 0}.prog i{flex:1;height:7px;border-radius:4px;background:var(--line)}.prog i.ok{background:var(--ok)}.prog i.cu{background:var(--ac2)}
+.exhd{margin:6px 0}.exhd mark{background:color-mix(in srgb,var(--ac2) 35%,transparent);color:inherit;border-radius:6px;padding:0 3px}
+.exres{border-radius:12px;padding:8px 10px;margin-top:6px}.exres.ok{background:color-mix(in srgb,var(--ok) 14%,var(--card));border:1px solid color-mix(in srgb,var(--ok) 40%,transparent)}.exres.ko{background:color-mix(in srgb,var(--no) 10%,var(--card));border:1px solid color-mix(in srgb,var(--no) 35%,transparent)}
+.exgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;direction:rtl;margin:8px 0}.exgrid div{border:1px solid var(--line);border-radius:10px;text-align:center;padding:2px 0;background:var(--bg)}.exgrid .ar{font-size:22px;display:block;line-height:1.5}.exgrid small{display:block;font-size:9px;color:var(--ac2);direction:ltr;min-height:12px}.exgrid .w{border-color:color-mix(in srgb,var(--no) 45%,transparent)}
+.exph{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;border-top:1px solid var(--line);padding:8px 0}.exph .ar{font-size:21px;flex:1 1 100%}.exph small{color:var(--mut);font-size:12px;flex:1}.exph .st{color:var(--ac2)}
+</style></head><body>
+<header><button id="bk" aria-label="Retour">←</button><h1 id="ttl">Lire et écrire l'arabe</h1></header>
+<nav id="nav"></nav><main id="main"></main>
+<script>
+(function(){
+var LG="fr";try{var q=location.search.match(/[?&]lang=(\w\w)/);LG=q?q[1]:(localStorage.getItem("qf-lang")==="bs"?"bs":"fr");}catch(e){}
+function T(f,b){return LG==="bs"?b:f;}
+var L=[ // ch, fr name, bs name, joins(next), sound fr, sound bs
+["ا","alif","elif",0,"a / â (support de voyelle)","a / â"],["ب","bâ’","ba",1,"b","b"],["ت","tâ’","ta",1,"t","t"],["ث","thâ’","sa",1,"th anglais (think)","s (kao engleski th)"],
+["ج","djîm","džim",1,"dj","dž"],["ح","Hâ’","ha",1,"h expiré, venant de la gorge","h iz grla"],["خ","khâ’","ha (h)",1,"kh (jota espagnole)","h (kao u „hrabar“)"],
+["د","dâl","dal",0,"d","d"],["ذ","dhâl","zal",0,"th anglais (this)","z (kao engleski th u „this“)"],["ر","râ’","ra",0,"r roulé","r"],["ز","zây","zej",0,"z","z"],
+["س","sîn","sin",1,"s","s"],["ش","chîn","šin",1,"ch","š"],["ص","Sâd","sad",1,"s emphatique (grave)","s (grubo)"],["ض","Dâd","dad",1,"d emphatique (grave)","d (grubo)"],
+["ط","Tâ’","ta (t)",1,"t emphatique (grave)","t (grubo)"],["ظ","DHâ’","za (z)",1,"dh emphatique (grave)","z (grubo)"],["ع","‘ayn","ajn",1,"son de gorge profond","grleni glas"],
+["غ","ghayn","gajn",1,"r grasseyé","gh (grleno r)"],["ف","fâ’","fa",1,"f","f"],["ق","Qâf","kaf (q)",1,"k profond (au fond de la gorge)","k (duboko u grlu)"],["ك","kâf","kjaf",1,"k","k"],
+["ل","lâm","lam",1,"l","l"],["م","mîm","mim",1,"m","m"],["ن","noûn","nun",1,"n","n"],["ه","hâ’","ha (h)",1,"h léger","h (lagano)"],["و","wâw","vav",0,"w / oû","v / u"],["ي","yâ’","ja",1,"y / î","j / i"]];
+function forms(x){var c=x[0],z="‍";return x[3]?[c,c+z,z+c+z,z+c]:[c,c,c,z+c];}
+var MODES=["home","alpha","vow","read","write"],cur="home",pad=null;
+var ZE="ّ",FA="َ",DA="ُ",KA="ِ",SU="ْ";
+function nav(){var n=[["home",T("Accueil","Početna")],["alpha",T("Alphabet","Abeceda")],["vow",T("Voyelles et signes","Vokali i znakovi")],["read",T("Lire (exercices)","Čitanje (vježbe)")],["write",T("Écrire au stylet","Pisanje olovkom")],["ex",T("✍️ Exercices","✍️ Vježbe")]];
+ document.getElementById("nav").innerHTML=n.map(function(a){return "<button data-m='"+a[0]+"' class='"+(cur===a[0]?"on":"")+"'>"+a[1]+"</button>";}).join("");}
+function go(m){cur=m;EX=null;nav();window.scrollTo(0,0);R[m]();try{if(window.parent!==window)window.parent.postMessage({sn:"arab-state",home:m==="home"},"*");}catch(e){}}
+var M=document.getElementById("main");
+function src(){return "<p class='src'>"+T("Plan du cours inspiré du support « L’arabe simplement » (niveau 1). Exercices et textes rédigés pour Sanadiya : à faire vérifier par l’imam.","Plan lekcije nadahnut materijalom »L’arabe simplement« (nivo 1). Vježbe i tekstove napisala je Sanadiya: neka ih provjeri imam.")+"</p>";}
+var R={};
+// Sons des lettres : fichiers ar-01 … ar-28 (mp3, m4a, ogg ou wav) à la racine ; le bouton n'apparaît que si le fichier existe
+var AUD={},AEXT=["mp3","m4a","ogg","wav"];
+function audUrl(i){if(AUD[i]!==undefined)return Promise.resolve(AUD[i]);var n="ar-"+(i<9?"0":"")+(i+1);
+ return AEXT.reduce(function(pr,e){return pr.then(function(u){if(u)return u;return fetch(n+"."+e,{method:"HEAD"}).then(function(r){return r.ok?n+"."+e:null;}).catch(function(){return null;});});},Promise.resolve(null)).then(function(u){AUD[i]=u;return u;});}
+var AVOW={};var curAud=null;
+function audBtn(i,host){audUrl(i).then(function(u){var h=document.getElementById(host);if(!u||!h)return;h.innerHTML="<button data-snd='"+i+"' class='snd'>🔊 "+T("Écouter","Slušaj")+(AVOW[i]?" · <span class='ar' style='font-size:22px'>"+AVOW[i]+"</span>":"")+"</button>";});}
+function playSnd(i){audUrl(i).then(function(u){if(!u)return;try{if(curAud)curAud.pause();curAud=new Audio(u);curAud.play();}catch(e){}});}
+R.home=function(){function tl(k,e,t1,s){return "<button class='tile k"+k+"' data-m='"+e[0]+"'><span class='emo' aria-hidden='true'>"+e[1]+"</span><b>"+t1+"</b><small>"+s+"</small></button>";}
+ M.innerHTML="<h2 class='g'>"+T("Apprendre","Učenje")+"</h2><div class='tiles'>"+
+ tl(1,["alpha","<span class='ar' style='color:var(--ac2);font-size:1.9rem'>أ ب</span>"],T("Alphabet","Abeceda"),T("28 lettres et leurs formes","28 slova i njihovi oblici"))+
+ tl(2,["vow","✨"],T("Voyelles et signes","Vokali i znakovi"),T("Harakât, chadda, tanwîn","Harekati, šedda, tenvin"))+"</div>"+
+ "<h2 class='g'>"+T("S’entraîner","Vježba")+"</h2><div class='tiles'>"+
+ tl(3,["read","📖"],T("Lire (exercices)","Čitanje (vježbe)"),T("Quiz de 10 questions","Kviz od 10 pitanja"))+
+ tl(4,["write","✍️"],T("Écrire au stylet","Pisanje olovkom"),T("Qalam, gomme, correction","Kalem, gumica, ispravak"))+tl(2,["ex","🏅"],T("Exercices d’écriture","Vježbe pisanja"),T("8 niveaux, étoiles et progression","8 nivoa, zvjezdice i napredak"))+"</div>"+src();};
+R.alpha=function(){
+ M.innerHTML="<div class='card'><b>"+T("Le sens de l’écriture","Smjer pisanja")+"</b><p class='note'>"+T("L’arabe s’écrit de droite à gauche. L’alphabet a 28 lettres ; la plupart s’attachent à la suivante et changent de forme : début, milieu, fin.","Arapski se piše zdesna nalijevo. Abeceda ima 28 slova; većina se vezuje za sljedeće i mijenja oblik: početak, sredina, kraj.")+"</p><div class='ar' style='font-size:34px;text-align:center'>السَّلَامُ عَلَيْكَ يَا أَخِي</div></div>"+
+ "<div class='grid'>"+L.map(function(x,i){return "<button class='lt' data-l='"+i+"'><span class='ar'>"+x[0]+"</span><small>"+(LG==='bs'?x[2]:x[1])+"</small></button>";}).join("")+"</div>"+src();};
+R.letter=function(i){var x=L[i],f=forms(x);
+ M.innerHTML="<button data-m='alpha'>← "+T("Alphabet","Abeceda")+"</button><div class='card'><div class='big ar'>"+x[0]+"</div><p style='text-align:center'><b>"+(LG==='bs'?x[2]:x[1])+"</b> · "+(LG==='bs'?x[5]:x[4])+"</p>"+
+ "<div class='forms'>"+[T("Isolée","Izolirano"),T("Début","Početak"),T("Milieu","Sredina"),T("Fin","Kraj")].map(function(n,k){return "<div><span class='ar'>"+f[k]+"</span><small>"+n+"</small></div>";}).join("")+"</div>"+
+ (x[3]?"":"<p class='note'>"+T("Cette lettre ne s’attache pas à la lettre suivante.","Ovo slovo se ne vezuje za sljedeće slovo.")+"</p>")+
+ "<div class='row'><span id='aud'></span><button class='pri' data-w='"+i+"'>"+T("✍ Écrire cette lettre","✍ Napiši ovo slovo")+"</button>"+(i>0?"<button data-l='"+(i-1)+"'>←</button>":"")+(i<27?"<button data-l='"+(i+1)+"'>→</button>":"")+"</div></div>";audBtn(i,"aud");};
+var VOWEL=[[FA,"a","fatHa",T("petit trait au-dessus : son « a »","crtica iznad: glas »a«")],[KA,"i","kasra",T("petit trait au-dessous : son « i »","crtica ispod: glas »i«")],[DA,"ou","damma",T("petit « waw » au-dessus : son « ou »","mali »vav« iznad: glas »u«")]];
+R.vow=function(){var h="";
+ h+="<div class='card'><b>"+T("Les voyelles courtes (harakât)","Kratki vokali (harekati)")+"</b><table class='tbl'><tr><th></th><th>"+T("Signe","Znak")+"</th><th>"+T("Lecture","Čitanje")+"</th></tr>"+VOWEL.map(function(v){return "<tr><td>"+v[2]+"</td><td class='ar' style='font-size:34px'>ب"+v[0]+"</td><td>b"+(v[1]==="ou"&&LG==="bs"?"u":v[1])+"</td></tr>";}).join("")+"</table></div>";
+ h+="<div class='card'><b>"+T("Les voyelles longues (madd)","Dugi vokali (medd)")+"</b><table class='tbl'><tr><td class='ar' style='font-size:34px'>بَا</td><td>bâ</td><td>"+T("fatHa + alif","fetha + elif")+"</td></tr><tr><td class='ar' style='font-size:34px'>بِي</td><td>bî</td><td>"+T("kasra + yâ’","kesra + ja")+"</td></tr><tr><td class='ar' style='font-size:34px'>بُو</td><td>"+(LG==='bs'?"bû":"boû")+"</td><td>"+T("damma + wâw","damma + vav")+"</td></tr></table><p class='note'>"+T("L’alif et le wâw ne s’attachent pas à la lettre suivante.","Elif i vav se ne vezuju za sljedeće slovo.")+"</p></div>";
+ h+="<div class='card'><b>"+T("Le soukoûn","Sukun")+"</b> <span class='ar' style='font-size:30px'>أَبْ</span><p class='note'>"+T("Un petit cercle au-dessus de la lettre : elle est lue sans voyelle. Ex. : « ab ».","Mali krug iznad slova: čita se bez vokala. Npr. »ab«.")+"</p></div>";
+ h+="<div class='card'><b>"+T("Le tanwîn","Tenvin")+"</b><table class='tbl'><tr><td class='ar' style='font-size:34px'>بًا</td><td>-an</td></tr><tr><td class='ar' style='font-size:34px'>بٍ</td><td>-in</td></tr><tr><td class='ar' style='font-size:34px'>بٌ</td><td>"+(LG==='bs'?"-un":"-oun")+"</td></tr></table><p class='note'>"+T("Signe doublé en fin de mot : on ajoute un son « n » (indéfini).","Udvostručen znak na kraju riječi: dodaje se glas »n« (neodređeno).")+"</p></div>";
+ h+="<div class='card'><b>"+T("La chadda","Šedda")+"</b> <span class='ar' style='font-size:34px'>أَبَّ</span><p class='note'>"+T("Signe qui double la lettre : « abba » = « ab-ba ».","Znak koji udvostručuje slovo: »abba« = »ab-ba«.")+"</p></div>";
+ h+="<div class='card'><b>"+T("Le tâ’ marboûTa et la hamza","Te marbuta i hemza")+"</b><p class='note'><span class='ar' style='font-size:28px'>ة</span> "+T("n’existe qu’en fin de mot (il se lit « a » ; « t » si on enchaîne).","postoji samo na kraju riječi (čita se »a«; »t« kad se nastavlja).")+" <span class='ar' style='font-size:28px'>ء أ إ</span> "+T("la hamza est un petit arrêt de la gorge.","hemza je kratak prekid u grlu.")+"</p></div>";
+ var SOL="ت ث د ذ ر ز س ش ص ض ط ظ ل ن".split(" "),LUN="ء ب ج ح خ ع غ ف ق ك م ه و ي".split(" ");
+ h+="<div class='card'><b>"+T("Lettres solaires et lunaires","Sunčana i mjesečeva slova")+"</b><p class='note'>"+T("Devant une lettre solaire, le « l » de l’article ال ne se prononce pas et la lettre est doublée : ","Ispred sunčanog slova, »l« člana ال ne izgovara se i slovo se udvostručuje: ")+"<span class='ar' style='font-size:26px'>الشَّمْس</span> (ash-shams). "+T("Devant une lettre lunaire, le « l » se prononce : ","Ispred mjesečevog slova, »l« se izgovara: ")+"<span class='ar' style='font-size:26px'>الْقَمَر</span> (al-qamar).</p><div class='ar' style='font-size:28px;text-align:center'>"+SOL.join(" ")+"</div><p class='note' style='text-align:center'>"+T("14 solaires","14 sunčanih")+"</p><div class='ar' style='font-size:28px;text-align:center'>"+LUN.join(" ")+"</div><p class='note' style='text-align:center'>"+T("14 lunaires","14 mjesečevih")+"</p></div>"+src();
+ M.innerHTML=h;};
+// reading exercises
+var WORDS=[["كِتَابٌ","kitâbun","kitabun"],["بَابٌ","bâbun","babun"],["بَيْتٌ","baytun","bejtun"],["قَلَمٌ","qalamun","kalemun"],["مَسْجِدٌ","masjidun","mesdžidun"],["نُورٌ","noûrun","nurun"],["شَمْسٌ","chamsun","šemsun"],["قَمَرٌ","qamarun","kamerun"],["رَبٌّ","rabbun","rabbun"],["يَدٌ","yadun","jedun"],["سَلَامٌ","salâmun","selamun"],["صَبْرٌ","Sabrun","sabrun"]];
+function sh(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+var qz={n:0,ok:0,tot:10,cur:null};
+function newQ(){var k=Math.floor(Math.random()*3),q;
+ if(k===0){var i=Math.floor(Math.random()*28),x=L[i],o=[i];while(o.length<4){var r=Math.floor(Math.random()*28);if(o.indexOf(r)<0)o.push(r);}
+  q={p:"<div class='big ar'>"+x[0]+"</div><p style='text-align:center'>"+T("Quelle est cette lettre ?","Koje je ovo slovo?")+"</p>",o:sh(o).map(function(z){return [LG==='bs'?L[z][2]:L[z][1],z===i];})};}
+ else if(k===1){var w=WORDS[Math.floor(Math.random()*WORDS.length)],o=[w];while(o.length<4){var r=WORDS[Math.floor(Math.random()*WORDS.length)];if(o.indexOf(r)<0)o.push(r);}
+  q={p:"<div class='big ar' style='font-size:64px'>"+w[0]+"</div><p style='text-align:center'>"+T("Comment se lit ce mot ?","Kako se čita ova riječ?")+"</p>",o:sh(o).map(function(z){return [LG==='bs'?z[2]:z[1],z===w];})};}
+ else{var sol=["الشَّمْس","النُّور","الرَّب","السَّلَام","الصَّبْر"],lun=["الْقَمَر","الْبَاب","الْكِتَاب","الْمَسْجِد","الْيَد"],isS=Math.random()<.5,w2=(isS?sol:lun)[Math.floor(Math.random()*5)];
+  q={p:"<div class='big ar' style='font-size:60px'>"+w2+"</div><p style='text-align:center'>"+T("Le « l » de l’article se prononce-t-il ?","Izgovara li se »l« člana?")+"</p>",o:[[T("Oui (lettre lunaire)","Da (mjesečevo slovo)"),!isS],[T("Non (lettre solaire)","Ne (sunčano slovo)"),isS]]};}
+ qz.cur=q;}
+R.read=function(){if(!qz.cur||qz.n>=qz.tot){if(qz.n>=qz.tot){M.innerHTML="<div class='card'><h2>"+T("Terminé","Gotovo")+"</h2><p class='score'>"+qz.ok+" / "+qz.tot+"</p><button class='pri' data-qr='1'>"+T("Recommencer","Ponovo")+"</button></div>"+src();return;}newQ();}
+ var q=qz.cur;M.innerHTML="<div class='card'><p class='note'>"+(qz.n+1)+" / "+qz.tot+"</p>"+q.p+"<div class='opt'>"+q.o.map(function(o,i){return "<button data-a='"+i+"'>"+o[0]+"</button>";}).join("")+"</div><button data-a='-1' class='idk' style='width:100%;margin-top:8px'>"+T("Je ne sais pas","Ne znam")+"</button></div>"+src();};
+function answer(i){var q=qz.cur,bt=M.querySelectorAll(".opt button");q.o.forEach(function(o,k){if(o[1])bt[k].classList.add("good");else if(k===i)bt[k].classList.add("bad");bt[k].disabled=true;});var ik=M.querySelector(".idk");if(ik)ik.disabled=true;if(i>=0&&q.o[i][1])qz.ok++;qz.n++;setTimeout(function(){qz.cur=null;R.read();},i<0?1500:900);}
+// writing pad
+var wi=0,wmode="trace",stylusOnly=false,penSeen=false,stylusTouched=false,tool="pen",lastTap=null,nib="qalam";
+var PENS=[["qalam","Calame (qalam)","Kalem"],["plume","Plume fine","Tanko pero"],["plume2","Plume épaisse","Debelo pero"],["plume3","Plume très épaisse","Vrlo debelo pero"],["qalam2","Calame large","Široki kalem"],["pinceau","Pinceau","Kist"],["feutre","Feutre","Flomaster"],["crayon","Crayon à papier","Grafitna olovka"],["round","Stylo bille","Hemijska olovka"]];
+try{var _nb=localStorage.getItem("ar-nib");if(_nb&&PENS.some(function(p){return p[0]===_nb;}))nib=_nb;}catch(e){}
+document.addEventListener("change",function(e){var t=e.target;if(t&&t.dataset&&t.dataset.nibsel){nib=t.value;try{localStorage.setItem("ar-nib",nib);}catch(_){}}});
+var INKS=[["auto","Auto (selon la feuille)","Automatski (prema listu)",""],["noir","Noir","Crna","#1b1b1b"],["vert","Vert","Zelena","#0f6b57"],["bleu","Bleu","Plava","#1f4e9a"],["bordeaux","Bordeaux","Bordo","#8a1f2b"],["brun","Brun (encre de calame)","Smeđa (mastilo)","#5a3a1a"],["or","Or","Zlatna","#b8892a"],["blanc","Blanc","Bijela","#f3f1ea"]];
+var PAPERS=[["creme","Feuille crème","Krem list","#FFFDF6"],["blanc","Feuille blanche","Bijeli list","#FFFFFF"],["sepia","Papier ancien","Stari papir","#F1E4C6"],["sombre","Feuille sombre","Tamni list","#15251f"]];
+var INK="auto",PAPER="creme";try{var _ik=localStorage.getItem("ar-ink");if(_ik&&INKS.some(function(p){return p[0]===_ik;}))INK=_ik;var _pp=localStorage.getItem("ar-paper");if(_pp&&PAPERS.some(function(p){return p[0]===_pp;}))PAPER=_pp;}catch(e){}
+function paperCol(){for(var i=0;i<PAPERS.length;i++)if(PAPERS[i][0]===PAPER)return PAPERS[i][3];return "#FFFDF6";}
+function darkPaper(){return PAPER==="sombre";}
+function inkCol(){if(INK!=="auto")for(var i=0;i<INKS.length;i++)if(INKS[i][0]===INK)return INKS[i][3];return darkPaper()?"#eef3ee":"#12302a";}
+document.addEventListener("change",function(e){var t=e.target;if(!t||!t.dataset)return;if(t.dataset.inksel){INK=t.value;try{localStorage.setItem("ar-ink",INK);}catch(_){}}if(t.dataset.papersel){PAPER=t.value;try{localStorage.setItem("ar-paper",PAPER);}catch(_){}R.write();}});
+var PAGE="carre",PAGES=[["carre","Carré","Kvadrat"],["lignes","Lignes de cahier","Linije bilježnice"],["carreaux","Grands carreaux","Velike kockice"],["seyes","Séyès (cahier d’écolier)","Seyès (školska bilježnica)"],["nuqta","Calligraphie : mesure en points","Kaligrafija: mjera u tačkama"],["simple","Une ligne d’écriture","Jedna linija"]];
+try{var _pg=localStorage.getItem("ar-page");if(_pg&&PAGES.some(function(p){return p[0]===_pg;}))PAGE=_pg;}catch(e){}
+document.addEventListener("change",function(e){var t=e.target;if(t&&t.dataset&&t.dataset.pagesel){PAGE=t.value;try{localStorage.setItem("ar-page",PAGE);}catch(_){}R.write();}});
+/* Géométrie commune au guide, au cahier et à la correction : la lettre est posée sur la ligne d'écriture */
+function pgeo(W,H){return {yb:H*0.64,ah:H*0.42,mx:W*0.93};}
+function drawGuide(c,ctx,ch,alpha,size){ctx.clearRect(0,0,c.width,c.height);ctx.save();ctx.textAlign="center";ctx.direction="rtl";
+ function fit(fs){var F="px Amiri,'Scheherazade New','Noto Naskh Arabic',serif";ctx.font=fs+F;var w=ctx.measureText(ch).width;if(w>c.width*0.86){fs=fs*c.width*0.86/w;ctx.font=fs+F;}return fs;}
+ if(PAGE==="carre"){ctx.fillStyle=alpha;ctx.textBaseline="middle";size=fit(size);ctx.fillText(ch,c.width/2,c.height/2+size*0.04);}
+ else{var G=pgeo(c.width,c.height),fs=size*0.86;ctx.textBaseline="alphabetic";fs=fit(fs);var x=Array.from(ch).length>3?c.width*0.5:c.width*0.47;
+  if(alpha==="#000"){ctx.fillStyle="#000";ctx.fillText(ch,x,G.yb);}
+  else if(alpha!=="rgba(0,0,0,0)"){ctx.fillStyle=darkPaper()?"rgba(238,243,238,.16)":"rgba(18,48,42,.16)";ctx.fillText(ch,x,G.yb);ctx.setLineDash([c.width*0.012,c.width*0.012]);ctx.lineWidth=Math.max(1,c.width*0.003);ctx.strokeStyle=darkPaper()?"rgba(238,243,238,.75)":"rgba(18,48,42,.75)";ctx.strokeText(ch,x,G.yb);}}
+ ctx.restore();}
+/* Fond de page (dessiné derrière la lettre guide ; n'entre pas dans la correction) */
+function drawPage(c,ctx,ch,showModel){if(PAGE==="carre")return;var W=c.width,H=c.height,G=pgeo(W,H),u=Math.max(1,W/400);
+ ctx.save();ctx.globalCompositeOperation="destination-over";
+ function hl(y,col,w,dash){ctx.beginPath();ctx.setLineDash(dash||[]);ctx.strokeStyle=col;ctx.lineWidth=w*u;ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+ function vl(x,col,w){ctx.beginPath();ctx.setLineDash([]);ctx.strokeStyle=col;ctx.lineWidth=w*u;ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+ if(showModel){ctx.globalCompositeOperation="source-over";ctx.fillStyle=darkPaper()?"#eef3ee":"#12302a";ctx.textAlign="center";ctx.textBaseline="alphabetic";ctx.direction="rtl";ctx.font=(W*0.13)+"px Amiri,serif";ctx.fillText(ch,W*0.12,H*0.17);ctx.font=(W*0.03)+"px Inter,system-ui,sans-serif";ctx.fillStyle="#7A8A84";ctx.fillText(T("modèle","uzor"),W*0.12,H*0.215);ctx.globalCompositeOperation="destination-over";}
+ vl(G.mx,"#E7A39A",1.5);
+ if(PAGE==="lignes"||PAGE==="simple"){hl(G.yb,"#3E6FA8",2.2);if(PAGE==="lignes"){hl(G.yb-G.ah*0.45,"#9AB6DB",1,[6*u,6*u]);hl(G.yb-G.ah,"#C9D9F0",1);hl(G.yb+G.ah*0.5,"#C9D9F0",1);}}
+ if(PAGE==="carreaux"){var st=W/10;for(var x=0;x<=W;x+=st)vl(x,"#E1EAF5",1);for(var y=G.yb%st;y<=H;y+=st)hl(y,"#E1EAF5",1);hl(G.yb,"#3E6FA8",2.2);}
+ if(PAGE==="seyes"){var big=G.ah*0.75,sm=big/4;for(var y2=G.yb%sm;y2<=H;y2+=sm){var main=Math.abs(((y2-G.yb)/big)-Math.round((y2-G.yb)/big))<0.01;hl(y2,main?"#9AB0D6":"#D5E0F0",main?1.3:0.8);}for(var x2=G.mx;x2>=0;x2-=big)vl(x2,"#D5E0F0",0.8);hl(G.yb,"#3E6FA8",2.2);}
+ if(PAGE==="nuqta"){var n=5,du=G.ah/n;hl(G.yb,"#3E6FA8",2.2);for(var i=1;i<=n;i++){hl(G.yb-du*i,"#E3E9F2",1,[3*u,5*u]);}
+  ctx.globalCompositeOperation="source-over";ctx.fillStyle="#9A6F14";for(var k=0;k<n;k++){var cx=W*0.84+(k%2?du*0.45:0),cy=G.yb-du*(k+0.5),r=du*0.34;ctx.beginPath();ctx.moveTo(cx,cy-r);ctx.lineTo(cx+r,cy);ctx.lineTo(cx,cy+r);ctx.lineTo(cx-r,cy);ctx.closePath();ctx.fill();}
+  ctx.font=(W*0.028)+"px Inter,system-ui,sans-serif";ctx.textAlign="center";ctx.fillStyle="#7A6A3A";ctx.fillText(T("alif = 5 points","elif = 5 tačaka"),W*0.84,G.yb+W*0.05);ctx.globalCompositeOperation="destination-over";}
+ ctx.fillStyle=PAGE==="carre"?"transparent":paperCol();ctx.fillRect(0,0,W,H);ctx.restore();}
+R.write=function(){var x=L[wi],f=forms(x);
+ M.innerHTML="<div class='card'><div class='row'><button data-wm='trace' class='"+(wmode==='trace'?'on':'')+"'>"+T("Calquer","Precrtaj")+"</button><button data-wm='mem' class='"+(wmode==='mem'?'on':'')+"'>"+T("De mémoire","Iz sjećanja")+"</button><button data-so='1' class='"+(stylusOnly?'on':'')+"'>"+T("Stylet seulement","Samo olovka")+"</button><label class='nibl'><span class='sr'>"+T("Page","Stranica")+"</span><select data-pagesel='1' aria-label='"+T("Choisir la page","Izaberi stranicu")+"'>"+PAGES.map(function(p){return "<option value='"+p[0]+"'"+(p[0]===PAGE?" selected":"")+">"+(LG==='bs'?p[2]:p[1])+"</option>";}).join("")+"</select></label><label class='nibl'><span class='sr'>"+T("Stylo","Pero")+"</span><select data-nibsel='1' aria-label='"+T("Choisir le stylo","Izaberi pero")+"'>"+PENS.map(function(p){return "<option value='"+p[0]+"'"+(p[0]===nib?" selected":"")+">"+(LG==='bs'?p[2]:p[1])+"</option>";}).join("")+"</select></label><label class='nibl'><span class='sr'>"+T("Encre","Mastilo")+"</span><select data-inksel='1' aria-label='"+T("Couleur de l’encre","Boja mastila")+"'>"+INKS.map(function(p){return "<option value='"+p[0]+"'"+(p[0]===INK?" selected":"")+">🎨 "+(LG==='bs'?p[2]:p[1])+"</option>";}).join("")+"</select></label><label class='nibl'><span class='sr'>"+T("Feuille","List")+"</span><select data-papersel='1' aria-label='"+T("Couleur de la feuille","Boja lista")+"'>"+PAPERS.map(function(p){return "<option value='"+p[0]+"'"+(p[0]===PAPER?" selected":"")+">📄 "+(LG==='bs'?p[2]:p[1])+"</option>";}).join("")+"</select></label><button data-tool='1' class='"+(tool==='eraser'?'on':'')+"'>"+(tool==='pen'?T("✏️ Stylo","✏️ Olovka"):T("🧽 Gomme","🧽 Gumica"))+"</button></div>"+
+ "<div class='row'><button data-wl='-1'>←</button><b style='flex:1;text-align:center'>"+(LG==='bs'?x[2]:x[1])+" <span class='ar' style='font-size:26px'>"+x[0]+"</span> <span id='aud2'></span></b><button data-wl='1'>→</button></div>"+
+ "<div class='pad' style='background:"+paperCol()+"'><canvas id='g'></canvas><canvas id='d'></canvas></div>"+
+ "<div class='row'><button data-undo='1'>"+T("↶ Annuler","↶ Poništi")+"</button><button data-clr='1'>"+T("Effacer","Obriši")+"</button><button class='pri' data-chk='1'>"+T("Vérifier","Provjeri")+"</button><span id='sc' class='score'></span></div>"+
+ "<p class='note' id='nt'></p><p class='note'>"+T("Stylet : la gomme physique ou le bouton latéral effacent ; un double tap rapide du stylet bascule stylo/gomme. Le double-tap de l’Apple Pencil lui-même n’est pas transmis par Safari.","Olovka: fizička gumica ili bočna tipka brišu; brzi dvostruki dodir olovkom mijenja olovka/gumica. Dvostruki dodir samog Apple Pencila Safari ne prenosi.")+"</p><div class='forms'>"+f.map(function(s,k){return "<div><span class='ar'>"+s+"</span><small>"+[T("Isolée","Izolirano"),T("Début","Početak"),T("Milieu","Sredina"),T("Fin","Kraj")][k]+"</small></div>";}).join("")+"</div></div>"+src();
+ LOCK=false;exDecorate();setupPad();if(!EX)audBtn(wi,"aud2");};
+var strokes=[];
+function setupPad(){var g=document.getElementById("g"),d=document.getElementById("d"),box=g.parentNode,W=Math.round(box.clientWidth),dpr=Math.min(2,window.devicePixelRatio||1);
+ [g,d].forEach(function(c){c.width=W*dpr;c.height=W*dpr;});var gc=g.getContext("2d"),dc=d.getContext("2d");strokes=[];
+ var ink=inkCol();/* la page est toujours une feuille claire : encre foncée, lisible en mode clair comme en mode sombre */
+ function guide(){drawGuide(g,gc,TXT(),wmode==="trace"?(darkPaper()?"rgba(238,243,238,.32)":"rgba(18,48,42,.30)"):"rgba(0,0,0,0)",g.width*0.62);drawPage(g,gc,TXT(),wmode==="trace"&&Array.from(TXT()).length<=3);}
+ guide();document.getElementById("nt").textContent=wmode==="trace"?T("Repasse sur la lettre en pâle.","Prijeđi preko blijedog slova."):T("Écris la lettre de mémoire, puis compare avec les formes en dessous.","Napiši slovo iz sjećanja pa usporedi s oblicima ispod.");
+ var down=false,last=null,cur=null,isPen=false,isEr=false;
+ d.addEventListener("contextmenu",function(e){e.preventDefault();});
+ function pos(e){var r=d.getBoundingClientRect();return [(e.clientX-r.left)*d.width/r.width,(e.clientY-r.top)*d.height/r.height,e.pointerType==="pen"?(e.pressure||0.5):0.5];}
+ function lw(p,pen){return dpr*(pen?2+p*6:5);}
+ var NA=Math.PI/3;var PW={plume:[5.5,1,0.5],plume2:[10,4.5,0.3],plume3:[17,8,0.4],pinceau:[15,3,0.9]};// pointe du qalam inclinée à 60° (écriture naskh/thuluth)
+ function nw(p,pen,nb){var k=nb==="qalam2"?1.8:1;return dpr*k*(pen?4+p*8:9);}
+ function seg(a,b,pen,er,nb,col){col=col||inkCol();dc.globalCompositeOperation=er?"destination-out":"source-over";dc.fillStyle=col;dc.strokeStyle=col;dc.lineCap="round";dc.lineJoin="round";
+  if(er){dc.lineWidth=dpr*24;dc.beginPath();dc.moveTo(a[0],a[1]);dc.lineTo(b[0],b[1]);dc.stroke();}
+  else if(nb==="qalam"||nb==="qalam2"){var h=nw(b[2],pen,nb)/2,ux=Math.cos(NA)*h,uy=-Math.sin(NA)*h;dc.beginPath();dc.moveTo(a[0]+ux,a[1]+uy);dc.lineTo(b[0]+ux,b[1]+uy);dc.lineTo(b[0]-ux,b[1]-uy);dc.lineTo(a[0]-ux,a[1]-uy);dc.closePath();dc.fill();dc.lineWidth=dpr*1.4;dc.stroke();}
+  else if(PW[nb]){var v=Math.hypot(b[0]-a[0],b[1]-a[1])/dpr,P=PW[nb];dc.lineWidth=dpr*(pen?P[1]*0.6+b[2]*P[0]:Math.max(P[1],Math.min(P[0],P[0]-v*P[2])));dc.beginPath();dc.moveTo(a[0],a[1]);dc.lineTo(b[0],b[1]);dc.stroke();}
+  else if(nb==="feutre"){dc.lineWidth=dpr*7;dc.beginPath();dc.moveTo(a[0],a[1]);dc.lineTo(b[0],b[1]);dc.stroke();}
+  else if(nb==="crayon"){dc.strokeStyle=INK!=="auto"?col:(darkPaper()?"#c9d1cd":"#4A4F4C");dc.lineWidth=dpr*3;dc.globalAlpha=0.9;dc.beginPath();dc.moveTo(a[0],a[1]);dc.lineTo(b[0],b[1]);dc.stroke();var j=((Math.round(a[0]*7+b[1]*13)%5)-2)*0.35*dpr;dc.globalAlpha=0.35;dc.lineWidth=dpr*1.2;dc.beginPath();dc.moveTo(a[0]+j,a[1]-j);dc.lineTo(b[0]+j,b[1]-j);dc.stroke();dc.globalAlpha=1;}
+  else{dc.lineWidth=lw(b[2],pen);dc.beginPath();dc.moveTo(a[0],a[1]);dc.lineTo(b[0],b[1]);dc.stroke();}
+  dc.globalCompositeOperation="source-over";}
+ function dot(s){var col=s.col||inkCol();dc.globalCompositeOperation=s.er?"destination-out":"source-over";dc.fillStyle=col;dc.strokeStyle=col;dc.lineCap="round";
+  if(s.er){dc.beginPath();dc.arc(s[0][0],s[0][1],dpr*12,0,7);dc.fill();}
+  else if(s.nib==="qalam"||s.nib==="qalam2"){var h=nw(s[0][2],s.pen,s.nib)/2;dc.lineWidth=dpr*2.4;dc.beginPath();dc.moveTo(s[0][0]+Math.cos(NA)*h,s[0][1]-Math.sin(NA)*h);dc.lineTo(s[0][0]-Math.cos(NA)*h,s[0][1]+Math.sin(NA)*h);dc.stroke();}
+  else{var r=PW[s.nib]?dpr*PW[s.nib][1]*0.6:s.nib==="plume"?dpr*2.5:s.nib==="pinceau"?dpr*4:s.nib==="feutre"?dpr*3.5:s.nib==="crayon"?dpr*1.5:lw(s[0][2],s.pen)/2;if(s.nib==="crayon")dc.fillStyle=INK!=="auto"?col:(darkPaper()?"#c9d1cd":"#4A4F4C");dc.beginPath();dc.arc(s[0][0],s[0][1],r,0,7);dc.fill();}
+  dc.globalCompositeOperation="source-over";}
+ function redraw(){dc.clearRect(0,0,d.width,d.height);strokes.forEach(function(s){if(s.length===1)dot(s);for(var i=1;i<s.length;i++)seg(s[i-1],s[i],s.pen,s.er,s.nib,s.col);});}
+ function setTool(x){tool=x;var b=M.querySelector("[data-tool]");if(b){b.textContent=tool==="pen"?T("✏️ Stylo","✏️ Olovka"):T("🧽 Gomme","🧽 Gumica");b.classList.toggle("on",tool==="eraser");}}
+ d.addEventListener("pointerdown",function(e){if(LOCK){e.preventDefault();return;}
+  if(e.pointerType==="pen"&&!penSeen){penSeen=true;if(!stylusTouched){stylusOnly=true;var b=M.querySelector("[data-so]");if(b)b.classList.add("on");var n=document.getElementById("nt");if(n)n.textContent=T("Stylet détecté : le doigt et la paume sont ignorés (bouton « Stylet seulement » pour changer).","Olovka prepoznata: prst i dlan se ignoriraju (gumb »Samo olovka« za promjenu).");}}
+  if(stylusOnly&&e.pointerType!=="pen")return;
+  down=true;isPen=e.pointerType==="pen";isEr=tool==="eraser"||(isPen&&((e.buttons&32)||e.button===5||(e.buttons&2)));try{d.setPointerCapture(e.pointerId);}catch(_){}last=pos(e);cur=[last];cur.pen=isPen;cur.er=isEr;cur.nib=nib;cur.col=inkCol();cur.t0=Date.now();strokes.push(cur);dot(cur);e.preventDefault();});
+ d.addEventListener("pointermove",function(e){if(!down)return;var evs=(e.getCoalescedEvents&&e.getCoalescedEvents())||[];if(!evs.length)evs=[e];
+  evs.forEach(function(ev){var p=pos(ev);seg(last,p,isPen,isEr,nib);cur.push(p);last=p;});e.preventDefault();});
+ function up(){if(down&&cur&&isPen&&cur.length<=3){var now=Date.now(),x=cur[0][0],y=cur[0][1];
+   if(lastTap&&now-lastTap.t<400&&Math.hypot(x-lastTap.x,y-lastTap.y)<dpr*14){strokes.pop();strokes.pop();redraw();setTool(tool==="pen"?"eraser":"pen");lastTap=null;down=false;return;}
+   lastTap={t:now,x:x,y:y};}else lastTap=null;down=false;}d.addEventListener("pointerup",up);d.addEventListener("pointercancel",up);
+ window.__clr=function(){dc.clearRect(0,0,d.width,d.height);strokes=[];document.getElementById("sc").textContent="";};
+ window.__tool=function(){setTool(tool==="pen"?"eraser":"pen");};
+ window.__undo=function(){strokes.pop();redraw();document.getElementById("sc").textContent="";};
+ window.__chk=function(){if(LOCK)return;var out=document.getElementById("sc");if(!strokes.length){out.textContent=T("Écris d’abord.","Prvo napiši.");return;}
+  var S=128,norm=(wmode==="mem");
+  function sm(src){var c=document.createElement("canvas");c.width=c.height=S;var x=c.getContext("2d");
+   if(!norm){x.drawImage(src,0,0,S,S);return x.getImageData(0,0,S,S).data;}
+   var w=src.width,h=src.height,t=src.getContext("2d").getImageData(0,0,w,h).data,x0=w,y0=h,x1=-1,y1=-1;
+   for(var y=0;y<h;y+=2)for(var xx=0;xx<w;xx+=2){if(t[(y*w+xx)*4+3]>60){if(xx<x0)x0=xx;if(xx>x1)x1=xx;if(y<y0)y0=y;if(y>y1)y1=y;}}
+   var bw=Math.max(1,x1-x0+2),bh=Math.max(1,y1-y0+2),k=(S*0.8)/Math.max(bw,bh);
+   x.drawImage(src,x0,y0,bw,bh,(S-bw*k)/2,(S-bh*k)/2,bw*k,bh*k);return x.getImageData(0,0,S,S).data;}
+  var gm=document.createElement("canvas");gm.width=g.width;gm.height=g.height;drawGuide(gm,gm.getContext("2d"),TXT(),"#000",g.width*0.62);
+  var ga=sm(gm),ua=sm(d),lng=Array.from(TXT()).length>4,Rr=scoreAr(ga,ua,S,lng,norm),sc=Rr.sc,det=[],msg;
+  if(!Rr.dotsOK&&!lng){var e1=Rr.dg.up?T(Rr.dg.up+" au-dessus",Rr.dg.up+" iznad"):"",e2=Rr.dg.dn?T(Rr.dg.dn+" au-dessous",Rr.dg.dn+" ispod"):"",g1=Rr.du.up?T(Rr.du.up+" au-dessus",Rr.du.up+" iznad"):"",g2=Rr.du.dn?T(Rr.du.dn+" au-dessous",Rr.du.dn+" ispod"):"";
+   det.push(T("Points et signes séparés : attendus ","Tačke i odvojeni znakovi: očekivano ")+([e1,e2].filter(Boolean).join(", ")||T("aucun","nijedan"))+T(" ; tracés : ","; napisano: ")+([g1,g2].filter(Boolean).join(", ")||T("aucun","nijedan"))+".");}
+  else if(!Rr.dotsOK)det.push(T("Il manque ou il y a en trop des points ou des voyelles.","Nedostaju ili su suvišne tačke ili vokali."));
+  if(Rr.R<0.7)det.push(T("Une partie de la forme manque ou n’est pas assez longue.","Dio oblika nedostaje ili nije dovoljno dug."));
+  if(Rr.P<0.7)det.push(T("Du tracé s’écarte de la forme (trait en trop ou mal placé).","Dio poteza odstupa od oblika (višak ili krivo mjesto)."));
+  if(!norm&&Rr.SC<0.92)det.push(T("La taille ne correspond pas au modèle (trop grand ou trop petit).","Veličina ne odgovara uzoru (preveliko ili premalo)."));
+  if(Rr.ST<0.7&&Rr.R>=0.7&&Rr.P>=0.7)det.push(T("Les proportions ne sont pas encore justes (taille ou place des parties).","Proporcije još nisu tačne (veličina ili položaj dijelova)."));
+  var s0=strokes.filter(function(z){return !z.er&&z.length>4;})[0];if(s0){var dx=s0[s0.length-1][0]-s0[0][0],dy=s0[s0.length-1][1]-s0[0][1];if(Math.abs(dx)>Math.abs(dy)*1.5&&dx>d.width*0.15){sc=Math.max(0,sc-5);det.push(T("Le premier trait va de gauche à droite : en arabe, on écrit de droite à gauche.","Prvi potez ide slijeva nadesno: arapski se piše zdesna nalijevo."));}}
+  msg=sc>=80?T("Forme proche","Oblik blizu"):sc>=60?T("Reconnaissable, à affiner","Prepoznatljivo, treba doraditi"):T("Forme différente, recommence","Oblik se razlikuje, ponovi");
+  out.innerHTML=sc+" % · "+msg+(det.length?"<br><small>"+det.join(" ")+"</small>":"")+"<br><small>"+T("Estimation automatique : forme, proportions, points et sens d’écriture. L’ordre exact des traits n’est pas vérifié : fais confirmer par ton professeur ou l’imam.","Automatska procjena: oblik, proporcije, tačke i smjer pisanja. Tačan redoslijed poteza se ne provjerava: neka potvrdi učitelj ili imam.")+"</small>";
+  try{var k=JSON.parse(localStorage.getItem("ar-best")||"{}");k[wi]=Math.max(k[wi]||0,sc);localStorage.setItem("ar-best",JSON.stringify(k));}catch(e){}
+  if(EX)exScore(sc);
+ };}
+
+/* Évaluation du tracé v2 : squelettes + distances (tolérance progressive), répartition dans l'espace, points (nombre et position), sens d'écriture */
+function scoreAr(ga,ua,S,lng,mem){
+ function mask(dt){var m=new Uint8Array(S*S);for(var i=0;i<S*S;i++)m[i]=dt[i*4+3]>60?1:0;return m;}
+ function thin(m0){var m=m0.slice(),ch=true,it=0;function P(x,y){return (x<0||y<0||x>=S||y>=S)?0:m[y*S+x];}
+  while(ch&&it<40){ch=false;it++;for(var pass=0;pass<2;pass++){var del=[];for(var y=0;y<S;y++)for(var x=0;x<S;x++){if(!m[y*S+x])continue;
+   var p2=P(x,y-1),p3=P(x+1,y-1),p4=P(x+1,y),p5=P(x+1,y+1),p6=P(x,y+1),p7=P(x-1,y+1),p8=P(x-1,y),p9=P(x-1,y-1),B=p2+p3+p4+p5+p6+p7+p8+p9;if(B<2||B>6)continue;
+   var A=(!p2&&p3)+(!p3&&p4)+(!p4&&p5)+(!p5&&p6)+(!p6&&p7)+(!p7&&p8)+(!p8&&p9)+(!p9&&p2);if(A!==1)continue;
+   if(pass===0?(p2*p4*p6||p4*p6*p8):(p2*p4*p8||p2*p6*p8))continue;del.push(y*S+x);}
+   if(del.length){ch=true;del.forEach(function(i){m[i]=0;});}}}return m;}
+ function dist(m){var INF=1e9,d=new Float32Array(S*S);for(var i=0;i<S*S;i++)d[i]=m[i]?0:INF;
+  for(var y=0;y<S;y++)for(var x=0;x<S;x++){var i=y*S+x,v=d[i];if(x>0)v=Math.min(v,d[i-1]+1);if(y>0){v=Math.min(v,d[i-S]+1);if(x>0)v=Math.min(v,d[i-S-1]+1.4);if(x<S-1)v=Math.min(v,d[i-S+1]+1.4);}d[i]=v;}
+  for(var y=S-1;y>=0;y--)for(var x=S-1;x>=0;x--){var i=y*S+x,v=d[i];if(x<S-1)v=Math.min(v,d[i+1]+1);if(y<S-1){v=Math.min(v,d[i+S]+1);if(x<S-1)v=Math.min(v,d[i+S+1]+1.4);if(x>0)v=Math.min(v,d[i+S-1]+1.4);}d[i]=v;}return d;}
+ function comps(m){var seen=new Uint8Array(S*S),out=[];for(var i=0;i<S*S;i++){if(!m[i]||seen[i])continue;var st=[i],a=0,sx=0,sy=0,y0=S,y1=0;seen[i]=1;while(st.length){var q=st.pop();a++;var x=q%S,y=(q-x)/S;sx+=x;sy+=y;if(y<y0)y0=y;if(y>y1)y1=y;
+   for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){var xx=x+dx,yy=y+dy;if(xx>=0&&xx<S&&yy>=0&&yy<S){var j=yy*S+xx;if(m[j]&&!seen[j]){seen[j]=1;st.push(j);}}}}
+   out.push({a:a,cx:sx/a,cy:sy/a,y0:y0,y1:y1});}return out;}
+ function dil(m,r){var o=new Uint8Array(S*S);for(var y=0;y<S;y++)for(var x=0;x<S;x++){if(!m[y*S+x])continue;for(var dy=-r;dy<=r;dy++)for(var dx=-r;dx<=r;dx++){var yy=y+dy,xx=x+dx;if(yy>=0&&yy<S&&xx>=0&&xx<S)o[yy*S+xx]=1;}}return o;}
+ var G=mask(ga),U=mask(ua),Gs=thin(G),Us=thin(dil(U,1)),dG=dist(G),dU=dist(dil(U,1)),dGs=dist(Gs);
+ var t0=mem?2.5:1.8,t1=mem?9:5.5;function f(d){return d<=t0?1:Math.max(0,1-(d-t0)/t1);}
+ var pn=0,ps=0,rn=0,rs=0;for(var i=0;i<S*S;i++){if(Us[i]){pn++;ps+=f(dG[i]);}if(Gs[i]){rn++;rs+=f(dU[i]);}}
+ var P=pn?ps/pn:0,Rc=rn?rs/rn:0,F=(P+Rc)?2*P*Rc/(P+Rc):0,len=rn?pn/rn:0;
+ // répartition : grille 4x4 des squelettes
+ function prof(m){var g=new Float32Array(16),n=0;for(var i=0;i<S*S;i++)if(m[i]){var x=i%S,y=(i-x)/S;g[Math.min(3,y*4/S|0)*4+Math.min(3,x*4/S|0)]++;n++;}for(var k=0;k<16;k++)g[k]=n?g[k]/n:0;return g;}
+ var pg=prof(Gs),pu=prof(Us),tv=0;for(var k=0;k<16;k++)tv+=Math.abs(pg[k]-pu[k]);var ST=1-tv/2;
+ // points : petits éléments séparés, au-dessus ou au-dessous du corps principal
+ function dots(m){var c=comps(dil(m,1)).filter(function(o){return o.a>=6;});if(!c.length)return {n:0,up:0,dn:0};var big=c.reduce(function(a,b){return b.a>a.a?b:a;});
+  var sm=c.filter(function(o){return o!==big&&o.a<big.a*0.35;}),up=0,dn=0;sm.forEach(function(o){if(o.cy<big.cy)up++;else dn++;});return {n:c.length,up:up,dn:dn};}
+ var dg=dots(G),du=dots(U),dotsOK=lng?Math.abs(dg.n-du.n)<=Math.max(2,Math.round(dg.n*0.25)):(dg.up===du.up&&dg.dn===du.dn&&Math.abs(dg.n-du.n)<=0);
+ function bb(m){var x0=S,y0=S,x1=-1,y1=-1;for(var i=0;i<S*S;i++)if(m[i]){var x=i%S,y=(i-x)/S;if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}return {w:Math.max(1,x1-x0+1),h:Math.max(1,y1-y0+1)};}
+ var bg=bb(Gs),bu=bb(Us),rw=bu.w/bg.w,rh=bu.h/bg.h,SC=Math.min(rw,1/rw,bg.h>S*0.15?Math.min(rh,1/rh):1);
+ var sc=100*Math.pow(F,0.85)*(0.7+0.3*ST);if(!mem&&SC<0.92)sc*=Math.max(0.4,1-(0.92-SC)*1.6);
+ if(len<0.45)sc*=0.6+0.4*len/0.45;
+ if(len>2.2)sc*=Math.max(0.6,1-(len-2.2)*0.25);
+ if(!dotsOK)sc=Math.min(sc,lng?70:40);
+ return {sc:Math.max(0,Math.min(100,Math.round(sc))),SC:SC,P:P,R:Rc,ST:ST,len:len,dg:dg,du:du,dotsOK:dotsOK};}
+
+// ===== Exercices d'écriture avec progression (niveaux 1 à 8) =====
+var EX=null,LOCK=false;var TRIES=7;
+function lockPad(on){LOCK=on;["[data-chk]","[data-undo]","[data-clr]"].forEach(function(q){var b=M.querySelector(q);if(b)b.disabled=on;});var pd=M.querySelector(".pad");if(pd)pd.style.opacity=on?"0.85":"";}
+function TXT(){return EX?EX.it.t:L[wi][0];}
+var EVW=[[FA,"fatha","fetha"],[KA,"kasra","kesra"],[DA,"damma","damma"],[SU,"soukoûn","sukun"]];
+var DAILY=[["بِسْمِ اللَّهِ","Bismillâh","Au nom d’Allah","U ime Allaha"],["الْحَمْدُ لِلَّهِ","Al-hamdu lillâh","Louange à Allah","Hvala Allahu"],["سُبْحَانَ اللَّهِ","Subhâna llâh","Gloire à Allah, exempt de toute imperfection","Slavljen neka je Allah, čist od svakog nedostatka"],["اللَّهُ أَكْبَرُ","Allâhu akbar","Allah est plus grand","Allah je najveći"],["لَا إِلَهَ إِلَّا اللَّهُ","Lâ ilâha illa llâh","Nulle divinité n’est adorée à juste titre sauf Allah","Nema boga osim Allaha"],["أَسْتَغْفِرُ اللَّهَ","Astaghfiru llâh","Je demande pardon à Allah","Tražim oprost od Allaha"],["إِنْ شَاءَ اللَّهُ","In shâ’a llâh","Si Allah le veut","Ako Allah da"],["مَا شَاءَ اللَّهُ","Mâ shâ’a llâh","C’est ce qu’Allah a voulu","Mašallah (ono što Allah hoće)"],["جَزَاكَ اللَّهُ خَيْرًا","Jazâka llâhu khayran","Qu’Allah te récompense en bien","Neka te Allah nagradi dobrom"],["السَّلَامُ عَلَيْكُمْ","As-salâmu ʿalaykum","Que la paix soit sur vous","Mir s vama (selam alejkum)"],["صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ","Sallâ llâhu ʿalayhi wa sallam","Formule de prière et de salut sur le Prophète ﷺ","Salavat na Poslanika, s.a.v.s."]];
+// Phrases : l'arabe est repris mot pour mot des cours de l'application ; « | » sépare les parties à écrire une par une
+var PHR=[
+ ["اللَّهُ أَكْبَرُ","Allâhu akbar","Allah est plus grand","Allah je najveći","Prière · takbîr","Namaz · tekbir",1],
+ ["رَبِّ|اغْفِرْ لِي","Rabbi ghfir lî","Seigneur, pardonne-moi","Gospodaru, oprosti mi","Prière · entre les deux prosternations","Namaz · između dvije sedžde",1],
+ ["سُبْحَانَ|رَبِّيَ الْعَظِيمِ","Subhâna rabbiya l-ʿazîm","Gloire à mon Seigneur, le Très-Grand","Slavljen neka je moj Gospodar, Veličanstveni","Prière · inclinaison (rukûʿ)","Namaz · ruku",1],
+ ["سُبْحَانَ|رَبِّيَ الْأَعْلَى","Subhâna rabbiya l-aʿlâ","Gloire à mon Seigneur, le Très-Haut (par Son rang, non par un lieu)","Slavljen neka je moj Gospodar, Najuzvišeniji (po stepenu, ne po mjestu)","Prière · prosternation","Namaz · sedžda",1],
+ ["سَمِعَ اللَّهُ|لِمَنْ حَمِدَهُ","Samiʿa llâhu liman hamidah","Allah exauce celui qui Le loue","Allah usliša onoga ko Ga hvali","Prière · en se relevant","Namaz · pri ustajanju s ruku’a",1],
+ ["رَبَّنَا|وَلَكَ الْحَمْدُ","Rabbanâ wa laka l-hamd","Notre Seigneur, à Toi la louange","Gospodaru naš, Tebi pripada hvala","Prière · en se relevant","Namaz · pri ustajanju s ruku’a",1],
+ ["لَيْسَ كَمِثْلِهِ شَيْءٌ|وَهُوَ السَّمِيعُ الْبَصِيرُ","Laysa ka-mithlihi shay’, wa huwa s-samîʿu l-basîr","Rien n’est semblable à Lui, et Il est Celui qui entend et qui voit (Ash-Shûrâ 11)","Ništa nije poput Njega, i On sve čuje i sve vidi (Eš-Šura 11)","Croyance · Allah n’est pas un corps","Vjerovanje · Allah nije tijelo",0],
+ ["ذَهَبَ الظَّمَأُ|وَابْتَلَّتِ الْعُرُوقُ|وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ","Dhahaba z-zama’u wa btallati l-ʿurûqu wa thabata l-ajru in shâ’a llâh","La soif est partie, les veines sont irriguées et la récompense est confirmée, si Allah le veut","Žeđ je prošla, žile su natopljene i nagrada je potvrđena, ako Allah da","Jeûne · 3. Les sunnas du jeûne","Post · 3. Sunneti posta",0],
+ ["بِسْمِ اللَّهِ|اللَّهُمَّ إِنِّي أَعُوذُ بِكَ|مِنَ الْخُبُثِ وَالْخَبَائِثِ","Bismi llâh, allâhumma innî aʿûdhu bika mina l-khubuthi wa l-khabâ’ith","Par le nom d’Allah. Ô Allah, je cherche refuge auprès de Toi contre les mauvais esprits mâles et femelles","U ime Allaha. Allahu, tražim kod Tebe zaštitu od zlih duhova, muških i ženskih","Purification · 3. L’istinjâ’","Čistoća · 3. Istindža",0],
+ ["غُفْرَانَكَ|الْحَمْدُ لِلَّهِ الَّذِي|أَذْهَبَ عَنِّي الْأَذَى وَعَافَانِي","Ghufrânak, al-hamdu lillâhi lladhî adh-haba ʿanniya l-adhâ wa ʿâfânî","J’implore Ton pardon. Louange à Allah qui a éloigné de moi la nuisance et m’en a dispensé","Tražim Tvoj oprost. Hvala Allahu koji je od mene otklonio nečist i dao mi zdravlje","Purification · 3. L’istinjâ’","Čistoća · 3. Istindža",0],
+ ["يَجِبُ لِلَّهِ الْوُجُودُ وَالْقِدَمْ|كَذَا الْبَقَاءُ وَالْغِنَى الْمُطْلَقُ عَمّ","Yajibu li-llâhi l-wujûdu wa l-qidam, kadha l-baqâ’u wa l-ghinâ l-mutlaqu ʿamm","Il est obligatoire s’agissant d’Allah : l’existence, l’exemption de début, de même l’exemption de fin, et le non-besoin absolu","Allahu je obavezno: postojanje, bez početka, isto tako bez kraja, i apsolutna neovisnost","Croyance · 5. Les 13 attributs, vers 1","Vjerovanje · 5. Trinaest svojstava, stih 1",0],
+ ["وَخُلْفُهُ لِخَلْقِهِ بِلَا مِثَالْ|وَوَحْدَةُ الذَّاتِ وَوَصْفٍ وَالْفِعَالْ","Wa khulfuhu li-khalqihi bilâ mithâl, wa wahdatu dh-dhâti wa wasfin wa l-fiʿâl","La non-ressemblance aux créatures, l’unicité de Son Être, de Ses attributs et de Ses actes","Nesličnost stvorenjima, jednoća Njegovog Bića, svojstava i djela","Croyance · 5. Les 13 attributs, vers 2","Vjerovanje · 5. Trinaest svojstava, stih 2",0],
+ ["وَقُدْرَةٌ إِرَادَةٌ عِلْمٌ حَيَاةْ|سَمْعٌ كَلَامٌ بَصَرٌ ذِي وَاجِبَاتْ","Wa qudratun irâdatun ʿilmun hayâh, samʿun kalâmun basarun dhî wâjibât","La toute-puissance, la volonté, la science, la vie, l’ouïe, la parole, la vue : ce sont des attributs obligatoires","Moć, volja, znanje, život, sluh, govor, vid: to su obavezna svojstva","Croyance · 5. Les 13 attributs, vers 3","Vjerovanje · 5. Trinaest svojstava, stih 3",0],
+ ["لَا يُقَالُ كَيْفَ لِمَنْ كَيَّفَ الْكَيْفَ|لَا يُقَالُ أَيْنَ لِمَنْ أَيَّنَ الْأَيْنَ","Lâ yuqâlu kayfa li-man kayyafa l-kayf, lâ yuqâlu ayna li-man ayyana l-ayn","On ne dit pas « comment » pour Celui qui a créé le comment ; on ne dit pas « où » pour Celui qui a créé le où (ʿAlî ibn Abî Tâlib)","Ne kaže se »kako« za Onoga ko je stvorio kako; ne kaže se »gdje« za Onoga ko je stvorio gdje (Alija ibn Ebi Talib)","Croyance · 3. Allah n’est pas un corps","Vjerovanje · 3. Allah nije tijelo",0],
+ ["أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ|وَحْدَهُ لَا شَرِيكَ لَهُ|وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ|اللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ|وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ","Ash-hadu an lâ ilâha illa llâhu wahdahu lâ sharîka lah, wa ash-hadu anna Muhammadan ʿabduhu wa rasûluh, allâhumma jʿalnî mina t-tawwâbîna wa jʿalnî mina l-mutatahhirîn","Je témoigne qu’il n’est de Dieu qu’Allah, l’Unique, sans associé, et je témoigne que Muhammad ﷺ est Son serviteur et Son Messager. Ô Allah, fais que je sois parmi ceux qui se repentent et parmi ceux qui se purifient","Svjedočim da nema boga osim Allaha, Jedinog, Koji nema druga, i svjedočim da je Muhammed, s.a.v.s., Njegov rob i Poslanik. Allahu, učini me od onih koji se kaju i od onih koji se čiste","Purification · 1. Le wudû’ (fin des ablutions)","Čistoća · 1. Abdest (na kraju abdesta)",0]];
+var TRF=["a","b","t","th","dj","ḥ","kh","d","dh","r","z","s","ch","ṣ","ḍ","ṭ","ẓ","ʿ","gh","f","q","k","l","m","n","h","w","y"],TRB=["a","b","t","s̱","dž","ḥ","h","d","ẕ","r","z","s","š","ṣ","ḍ","ṭ","ẓ","ʿ","g","f","k","k","l","m","n","h","v","j"];
+function phL(x){return {f:x[1]+" · « "+x[4]+" »",b:x[2]+" · »"+x[5]+"«"};}
+function nmL(i){return LG==='bs'?L[i][2]:L[i][1];}
+var FNM=[["","",""],["début","du début","početak"],["milieu","du milieu","sredina"],["fin","de la fin","kraj"]];
+var LEVELS=[
+ {id:"l1",fr:"Les lettres seules",bs:"Slova sama",sf:"Calquer les 28 lettres",sb:"Precrtaj 28 slova",mode:"trace",items:function(){return L.map(function(x,i){return {t:x[0],fr:"Écris la lettre "+x[1],bs:"Napiši slovo "+x[2],k:x[0],ph:phL(x)};});}},
+ {id:"l2",fr:"De mémoire",bs:"Iz sjećanja",sf:"Écrire chaque lettre sans modèle",sb:"Napiši svako slovo bez uzora",mode:"mem",items:function(){return L.map(function(x){return {t:x[0],fr:"Écris de mémoire : "+x[1],bs:"Napiši iz sjećanja: "+x[2],k:x[0],hide:1,ph:phL(x)};});}},
+ {id:"l3",fr:"Les 4 formes",bs:"4 oblika",sf:"Début, milieu, fin",sb:"Početak, sredina, kraj",mode:"trace",items:function(){var a=[];L.forEach(function(x){var f=forms(x);(x[3]?[1,2,3]:[3]).forEach(function(k){a.push({t:f[k],fr:"Écris la forme "+FNM[k][1]+" de "+x[1],bs:"Napiši oblik ("+FNM[k][2]+") slova "+x[2],k:f[k],ph:phL(x)});});});return a;}},
+ {id:"l4",fr:"Avec les voyelles",bs:"S vokalima",sf:"Fatha, kasra, damma, soukoûn",sb:"Fetha, kesra, damma, sukun",mode:"trace",items:function(){var a=[];L.forEach(function(x,i){if(i===0)return;var v=EVW[i%4];var vf=["a","i","ou",""][i%4],vb=["a","i","u",""][i%4];a.push({t:x[0]+v[0],fr:"Écris "+x[1]+" avec "+v[1],bs:"Napiši "+x[2]+" sa "+v[2],k:x[0]+v[0],ph:{f:"« "+TRF[i]+vf+" »"+(vf?"":" (sans voyelle)"),b:"»"+TRB[i]+vb+"«"+(vb?"":" (bez vokala)")}});});return a;}},
+ {id:"l5",fr:"Lettres liées",bs:"Spojena slova",sf:"Petits mots",sb:"Kratke riječi",mode:"trace",items:function(){return WORDS.map(function(w){return {t:w[0],fr:"Écris le mot « "+w[1]+" »",bs:"Napiši riječ »"+w[2]+"«",k:w[0],ph:{f:w[1],b:w[2]}};});}},
+ {id:"l6",fr:"Mots du quotidien du musulman",bs:"Svakodnevne riječi muslimana",sf:"Bismillâh, al-hamdu lillâh…",sb:"Bismillah, elhamdulillah…",mode:"trace",items:function(){return DAILY.map(function(w){return {t:w[0],fr:w[1]+" : "+w[2],bs:w[1]+": "+w[3],k:w[0],ph:{f:w[1],b:w[1]}};});}},
+ {id:"l7",fr:"Dictée",bs:"Diktat",sf:"Lire la phonétique, puis écrire",sb:"Pročitaj fonetiku, pa napiši",mode:"mem",items:function(){return WORDS.map(function(w){return {t:w[0],fr:"Écris sans modèle : « "+w[1]+" »",bs:"Napiši bez uzora: »"+w[2]+"«",k:w[0],hide:1,ph:{f:w[1],b:w[2]}};}).concat(DAILY.slice(0,6).map(function(w){return {t:w[0],fr:"Écris sans modèle : « "+w[1]+" »",bs:"Napiši bez uzora: »"+w[1]+"«",k:w[0],hide:1,ph:{f:w[1],b:w[1]}};}));}},
+ {id:"l8",fr:"Phrases des cours de l’imam",bs:"Rečenice iz imamovih lekcija",sf:"Croyance, purification, prière, jeûne",sb:"Vjerovanje, čistoća, namaz, post",mode:"trace",phr:1,items:function(){var a=[];PHR.forEach(function(p,pi){var parts=p[0].split("|"),full=parts.join(" ");parts.forEach(function(s,k){a.push({t:s,p:pi,ph:{f:p[1],b:p[1]},fr:"Partie "+(k+1)+" / "+parts.length+(parts.length>1?"":""),bs:"Dio "+(k+1)+" / "+parts.length,k:s});});if(parts.length>1&&full.split(" ").length<=6)a.push({t:full,p:pi,ph:{f:p[1],b:p[1]},fr:"La phrase entière",bs:"Cijela rečenica",k:full,full:1});});return a;}}];
+var LVC={};function lvItems(li){if(!LVC[li])LVC[li]=LEVELS[li].items();return LVC[li];}
+function exLoad(){try{return JSON.parse(localStorage.getItem("ar-ex")||"{}");}catch(e){return {};}}
+function exSave(o){try{localStorage.setItem("ar-ex",JSON.stringify(o));}catch(e){}}
+function exBest(li,k){var o=exLoad(),m=o[LEVELS[li].id]||{};return m[k];}
+function stars(sc){return sc===undefined?0:sc>=90?3:sc>=75?2:sc>=60?1:0;}
+function stS(n,max){max=max||3;var s="";for(var i=0;i<max;i++)s+=i<n?"⭐":"☆";return s;}
+function lvStat(li){var it=lvItems(li),o=exLoad()[LEVELS[li].id]||{},done=0,sum=0,st=0;it.forEach(function(x){var b=o[x.k];if(b!==undefined&&b>=60)done++;sum+=b||0;st+=stars(b);});var avg=Math.round(sum/it.length);return {n:it.length,done:done,avg:avg,stars:st,pass:done===it.length&&avg>=75,lvl:done===it.length?(avg>=90?3:avg>=75?2:1):0};}
+function lvOpen(li){return li===0||lvStat(li-1).pass;}
+function exDays(){try{return JSON.parse(localStorage.getItem("ar-exd")||"[]");}catch(e){return [];}}
+function today(d){d=d||new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();}
+function markDay(){var a=exDays(),t=today();if(a.indexOf(t)<0){a.push(t);if(a.length>400)a=a.slice(-400);try{localStorage.setItem("ar-exd",JSON.stringify(a));}catch(e){}}}
+function streak(){var a=exDays(),n=0,d=new Date();if(a.indexOf(today(d))<0)d.setDate(d.getDate()-1);while(a.indexOf(today(d))>=0){n++;d.setDate(d.getDate()-1);}return n;}
+function exNote(){return "<p class='note'>"+T("Note : estimation automatique de la forme, de la taille, des proportions, des points et du sens d’écriture ; l’ordre exact des traits n’est pas vérifié. Fais confirmer par ton professeur ou l’imam. Mots, phrases et traductions : à faire vérifier par l’imam.","Ocjena: automatska procjena oblika, veličine, proporcija, tačaka i smjera pisanja; tačan redoslijed poteza se ne provjerava. Neka potvrdi učitelj ili imam. Riječi, rečenice i prijevodi: treba provjeriti imam.")+"</p>";}
+R.ex=function(){EX=null;var tot=0,done=0,st=0,curL=-1;LEVELS.forEach(function(l,i){var s=lvStat(i);tot+=s.n;done+=s.done;st+=s.stars;if(curL<0&&!s.pass)curL=i;});var pc=Math.round(100*done/tot),sk=streak();
+ var h="<div class='card exsum'><div class='ring' style='background:conic-gradient(var(--ac) 0 "+pc+"%,var(--line) "+pc+"% 100%)'><i>"+pc+" %</i></div><div><b>"+T("Ton parcours d’écriture","Tvoj put pisanja")+"</b><br><small class='note'>"+(curL>=0?T("Niveau "+(curL+1)+" en cours","Nivo "+(curL+1)+" u toku"):T("Tous les niveaux réussis, mâ shâ’ Allah !","Svi nivoi završeni, mašallah!"))+" · "+st+" ⭐"+(sk?" · "+sk+" "+T(sk>1?"jours d’affilée":"jour","dan(a) zaredom")+" 🔥":"")+"</small></div></div>";
+ LEVELS.forEach(function(l,i){var s=lvStat(i),op=lvOpen(i),cls=s.pass?"done":(op?(i===curL?"cur":""):"lock");
+  h+="<button class='exlv "+cls+"' data-exl='"+i+"'"+(op?"":" disabled")+"><span class='n'>"+(s.pass?"✓":op?(i+1):"🔒")+"</span><span class='tx'><b>"+(i+1)+". "+T(l.fr,l.bs)+"</b><small>"+T(l.sf,l.sb)+" · "+s.done+" / "+s.n+"</small>"+(op&&!s.pass?"<span class='bar'><i style='width:"+Math.round(100*s.done/s.n)+"%'></i></span>":"")+"</span><span class='st'>"+(s.lvl?stS(s.lvl):"")+"</span></button>";});
+ h+="<p class='note'>"+T("Pour débloquer le niveau suivant : au moins ⭐ sur chaque exercice et une moyenne de 75 %. ⭐ = 60 %, ⭐⭐ = 75 %, ⭐⭐⭐ = 90 %. La progression reste sur ton appareil.","Za otključavanje sljedećeg nivoa: barem ⭐ na svakoj vježbi i prosjek 75 %. ⭐ = 60 %, ⭐⭐ = 75 %, ⭐⭐⭐ = 90 %. Napredak ostaje na tvom uređaju.")+"</p>"+exNote();
+ M.innerHTML=h;};
+R.exlv=function(li,fin){EX=null;cur="ex";nav();var l=LEVELS[li],it=lvItems(li),o=exLoad()[l.id]||{},s=lvStat(li),wasPass=fin&&fin.before===false&&s.pass;
+ var h="<button data-m='ex'>← "+T("Parcours","Put")+"</button>";
+ if(fin)h+="<div class='card' style='text-align:center'><div style='font-size:30px'>"+stS(Math.max(0,Math.min(3,Math.round(fin.avg>=90?3:fin.avg>=75?2:fin.avg>=60?1:0))))+"</div><b>"+T("Série terminée","Serija završena")+" · "+fin.avg+" %</b>"+(wasPass?"<p><b>"+T("Niveau "+(li+1)+" réussi, mâ shâ’ Allah ! 🏅","Nivo "+(li+1)+" završen, mašallah! 🏅")+"</b>"+(li<7?"<br>🔓 "+T("Niveau "+(li+2)+" débloqué","Nivo "+(li+2)+" otključan"):"")+"</p>":"")+"</div>";
+ h+="<div class='card'><b>"+(li+1)+". "+T(l.fr,l.bs)+"</b><p class='note'>"+T(l.sf,l.sb)+" · "+s.done+" / "+s.n+" · "+T("moyenne","prosjek")+" "+s.avg+" %"+(s.pass?" · ✓ "+T("réussi","završeno"):"")+"</p>";
+ if(l.phr){h+=PHR.map(function(p,pi){var ks=it.filter(function(x){return x.p===pi;}),sc=ks.map(function(x){return o[x.k];}),dn=sc.every(function(v){return v!==undefined;}),av=dn?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):undefined;
+   return "<div class='exph'><span class='ar'>"+p[0].split("|").join(" ")+"</span><small>"+T(p[4],p[5])+(p[6]?" · "+T("à rattacher au cours de l’imam sur la prière","treba povezati s imamovom lekcijom o namazu"):"")+"</small><span class='st'>"+(av!==undefined?stS(stars(av)):"")+"</span></div>";}).join("");}
+ else h+="<div class='exgrid'>"+it.map(function(x){var b=o[x.k];return "<div class='"+(b!==undefined&&b<60?"w":"")+"'><span class='ar'>"+x.t+"</span><small>"+(b===undefined?"·":stS(stars(b)).replace(/☆/g,""))+"</small></div>";}).join("")+"</div>";
+ var weak=it.filter(function(x){var b=o[x.k];return b!==undefined&&b<75;});
+ if(weak.length)h+="<p class='note'>"+T("À retravailler (reviennent en premier dans les séries) : ","Za ponoviti (dolaze prvi u serijama): ")+"<span class='ar' style='font-size:22px'>"+weak.slice(0,8).map(function(x){return x.t;}).join(" ، ")+"</span></p>";
+ h+="<div class='row'><button class='pri' data-exs='"+li+"'>"+(s.done?T("Continuer une série","Nastavi seriju"):T("Commencer","Počni"))+"</button>"+(s.pass&&li<7?"<button data-exl='"+(li+1)+"'>"+T("Niveau "+(li+2)+" →","Nivo "+(li+2)+" →")+"</button>":"")+"</div></div>"+exNote();
+ M.innerHTML=h;window.scrollTo(0,0);};
+function exStart(li){var it=lvItems(li),o=exLoad()[LEVELS[li].id]||{},idx=it.map(function(x,i){return i;});
+ function key(i){var b=o[it[i].k];return b===undefined?[1,i]:b<60?[0,b]:b<75?[0.5,b]:[2,b+Math.random()*5];}
+ idx.sort(function(a,b){var A=key(a),B=key(b);return A[0]-B[0]||A[1]-B[1];});
+ if(LEVELS[li].phr){var ps=[],out=[];idx.forEach(function(i){var q=it[i].p;if(ps.indexOf(q)<0&&out.length<5){ps.push(q);it.forEach(function(x,j){if(x.p===q)out.push(j);});}});idx=out;}
+ else idx=idx.slice(0,7);
+ EX={li:li,lv:LEVELS[li],q:idx,k:0,tries:0,sc:[],before:lvStat(li).pass};exGo();}
+function exGo(){EX.it=lvItems(EX.li)[EX.q[EX.k]];EX.tries=0;EX.best=undefined;wmode=EX.lv.mode;cur="ex";nav();R.write();window.scrollTo(0,0);}
+function exHead(){var it=EX.it,l=EX.lv,h="<div class='exhd'><div class='row' style='justify-content:space-between;margin:0'><span>"+T("Niveau","Nivo")+" "+(EX.li+1)+" · "+(EX.k+1)+" / "+EX.q.length+"</span><button data-exq='1' class='snd'>✕ "+T("Quitter","Izađi")+"</button></div><div class='prog'>"+EX.q.map(function(x,i){return "<i class='"+(i<EX.k?"ok":i===EX.k?"cu":"")+"'></i>";}).join("")+"</div>";
+ if(l.phr){var p=PHR[it.p];h+="<div class='card' style='margin:6px 0;text-align:center'><span class='ar' style='font-size:24px;display:block'>"+p[0].split("|").map(function(s){return s===it.t||it.full?"<mark>"+s+"</mark>":s;}).join(" ")+"</span><small class='note'>"+p[1]+"<br>« "+T(p[2],p[3])+" »</small><br><small class='note'>"+T(p[4],p[5])+"</small></div><b>"+T(it.fr,it.bs)+"</b>";}
+ else h+="<b>"+T(it.fr,it.bs)+"</b>"+(it.hide?"":" <span class='ar' style='font-size:26px'>"+it.t+"</span>");
+ h+=" <small class='note'>· "+(l.mode==="mem"?T("sans modèle","bez uzora"):T("calquer","precrtaj"))+" · "+T(TRIES+" essais",TRIES+" pokušaja")+"</small></div>";return h;}
+function exScore(sc){var o=exLoad(),id=EX.lv.id;o[id]=o[id]||{};var k=EX.it.k;o[id][k]=Math.max(o[id][k]||0,sc);exSave(o);markDay();EX.tries++;lockPad(true);EX.best=Math.max(EX.best||0,sc);
+ var r=document.getElementById("exr");if(!r)return;var n=stars(EX.best),last=EX.k>=EX.q.length-1;
+ r.innerHTML="<div class='exres "+(sc>=60?"ok":"ko")+"'><b>"+sc+" %</b> · "+stS(stars(sc))+" · "+T("essai","pokušaj")+" "+EX.tries+" / "+TRIES+(EX.tries>1?" · "+T("meilleur","najbolje")+" "+EX.best+" %":"")+"</div><div class='row'>"+(EX.tries<TRIES?"<button data-exr='1'>"+T("✍ Essai suivant ("+(EX.tries+1)+" / "+TRIES+")","✍ Sljedeći pokušaj ("+(EX.tries+1)+" / "+TRIES+")")+"</button>":"<span class='note'>"+T("Les "+TRIES+" essais sont faits.","Svih "+TRIES+" pokušaja je iskorišteno.")+"</span>")+"<button class='pri' data-exn='1'"+(EX.tries<TRIES?" disabled title='"+T("Disponible après les "+TRIES+" essais","Dostupno nakon "+TRIES+" pokušaja")+"'":"")+">"+(last?T("Voir le bilan","Pogledaj rezultat"):T("Suivant →","Dalje →"))+(EX.tries<TRIES?" 🔒":"")+"</button></div>"+(EX.tries<TRIES?"<p class='note'>"+T("« Suivant » s’ouvre après les "+TRIES+" essais.","»Dalje« se otvara nakon "+TRIES+" pokušaja.")+"</p>":"");}
+function exNext(){EX.sc.push(EX.best||0);if(EX.k<EX.q.length-1){EX.k++;exGo();return;}var li=EX.li,avg=Math.round(EX.sc.reduce(function(a,b){return a+b;},0)/EX.sc.length),bf=EX.before;EX=null;R.exlv(li,{avg:avg,before:bf});}
+function addPhon(){var pd=M.querySelector(".pad");if(!pd)return;var ph;if(EX){ph=EX.it.ph;}else{ph=phL(L[wi]);}if(!ph)return;var d=document.createElement("div");d.className="phon";d.textContent=T(ph.f,ph.b);pd.parentNode.insertBefore(d,pd);}
+function exDecorate(){addPhon();if(!EX)return;M.querySelectorAll("[data-wm]").forEach(function(b){b.remove();});var rows=M.querySelectorAll(".card > .row");if(rows[1])rows[1].outerHTML=exHead();var fm=M.querySelector(".forms");if(fm)fm.remove();var sc=document.getElementById("sc");if(sc&&sc.parentNode){var d=document.createElement("div");d.id="exr";sc.parentNode.parentNode.insertBefore(d,sc.parentNode.nextSibling);}
+}
+
+// events
+document.addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;
+ if(t.id==="bk"){if(cur!=="home"){go("home");return;}if(window.parent!==window){window.parent.postMessage({sn:"arab-close"},"*");}else history.back();return;}
+ if(t.dataset.m){go(t.dataset.m);return;}
+ if(t.dataset.exl!==undefined){R.exlv(+t.dataset.exl);return;}if(t.dataset.exs!==undefined){exStart(+t.dataset.exs);return;}if(t.dataset.exn){if(EX&&EX.tries<TRIES)return;exNext();return;}if(t.dataset.exr){lockPad(false);window.__clr();var r=document.getElementById('exr');if(r)r.innerHTML='';return;}if(t.dataset.exq){var li=EX?EX.li:0;EX=null;R.exlv(li);return;}
+ if(t.dataset.l!==undefined){R.letter(+t.dataset.l);window.scrollTo(0,0);return;}
+ if(t.dataset.w!==undefined){wi=+t.dataset.w;cur="write";nav();R.write();window.scrollTo(0,0);return;}
+ if(t.dataset.wm){wmode=t.dataset.wm;R.write();return;}
+ if(t.dataset.nib){nib=nib==='qalam'?'round':'qalam';t.textContent=nib==='qalam'?T('Pointe qalam','Kalem'):T('Pointe ronde','Okrugla');t.classList.toggle('on',nib==='qalam');return;}
+ if(t.dataset.tool){window.__tool&&window.__tool();return;}
+ if(t.dataset.snd!==undefined){playSnd(+t.dataset.snd);return;}
+ if(t.dataset.undo){window.__undo();return;}
+ if(t.dataset.so){stylusTouched=true;stylusOnly=!stylusOnly;R.write();return;}
+ if(t.dataset.wl){wi=(wi+ +t.dataset.wl+28)%28;R.write();return;}
+ if(t.dataset.clr){window.__clr();return;}if(t.dataset.chk){window.__chk();return;}
+ if(t.dataset.qr){qz.n=0;qz.ok=0;qz.cur=null;R.read();return;}
+ if(t.dataset.a!==undefined&&!t.disabled){answer(+t.dataset.a);return;}
+});
+window.addEventListener("message",function(e){var d=e.data;if(d&&d.sn==="arab-home"){go("home");return;}if(d&&d.sn==="lang"){LG=d.l==="bs"?"bs":"fr";document.documentElement.lang=LG;document.getElementById("ttl").textContent=T("Lire et écrire l'arabe","Čitaj i piši arapski");nav();R[cur]&&R[cur]();}});
+document.documentElement.lang=LG;document.getElementById("ttl").textContent=T("Lire et écrire l'arabe","Čitaj i piši arapski");
+if(window.parent!==window){var bk=document.getElementById("bk");if(bk)bk.style.display="none";}
+nav();R.home();
+})();
+</script></body></html>
